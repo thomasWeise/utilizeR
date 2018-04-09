@@ -1,0 +1,17 @@
+Package: utilizeR
+Type: Package
+Title: An Utilities Package for R
+Version: 0.8.0
+Author: Dr. Thomas Weise <tweise@hfuu.edu.cn>
+Maintainer: Dr. Thomas Weise <tweise@hfuu.edu.cn>
+Description: This package just contains some basic utilities for R.
+License: LGPL-3
+Encoding: UTF-8
+URL: http://github.com/thomasWeise/functionComposeR/
+BugReports: http://github.com/thomasWeise/functionComposeR/issues
+Depends: R (>= 3.3.0)
+Suggests: testthat (>= 2.0.0),
+          roxygen2 (>= 6.0.1),
+          microbenchmark (>= 1.4.3)
+LazyData: true
+RoxygenNote: 6.0.1.9000
