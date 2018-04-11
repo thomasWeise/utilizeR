@@ -47,7 +47,7 @@ values are handler methods of the type \code{function(root, path(s))}.
 (\code{file.single}) or the list of files in a folder
 (\code{file.in.folder}) that match to their names. The names could, e.g.,
 be regular expressions matching to file extensions created by
-\code{\link{fileExtensionRegExp}}.
+\code{\link{path.extensionRegExp}}.
 
 The processing can either take place sequentially (for values of
 \code{core<=1L}) or in parallel (\code{cores>1L}). In the latter case, we
@@ -59,5 +59,5 @@ is that the handlers would read their input files and create output files
 storing their result.
 }
 \seealso{
-fileExtensionRegExp
+path.extensionRegExp
 }

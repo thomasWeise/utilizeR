@@ -17,7 +17,7 @@
 #' (\code{file.single}) or the list of files in a folder
 #' (\code{file.in.folder}) that match to their names. The names could, e.g.,
 #' be regular expressions matching to file extensions created by
-#' \code{\link{fileExtensionRegExp}}.
+#' \code{\link{path.extensionRegExp}}.
 #'
 #' The processing can either take place sequentially (for values of
 #' \code{core<=1L}) or in parallel (\code{cores>1L}). In the latter case, we
@@ -47,7 +47,7 @@
 #'   invoke all the consumers with the specified number of cores
 #' @export path.batchApply
 #' @importFrom parallel mclapply
-#' @seealso fileExtensionRegExp
+#' @seealso path.extensionRegExp
 path.batchApply <- function(path=getwd(),
                           file.single=emptyenv(),
                           file.in.folder=emptyenv(),
