@@ -42,9 +42,9 @@
 #'   which returns \code{TRUE} if we should recurse into the directory
 #'   \code{path} and \code{false} if not
 #' @param cores the number of cores to use. If \code{cores <= 1L}, the consumers
-#'   are applied sequentially. For \code{cores>1L}, we use the
-#'   \code{\link[parallel]{mclapply}} function provided by the \code{paralle}
-#'   package to invoke all the consumers with the specified number of cores
+#'   are applied sequentially. For \code{cores>1L}, we use the \code{mclapply}
+#'   function provided by the \code{paralle} package to invoke all the consumers
+#'   with the specified number of cores
 #' @export path.batchApply
 #' @importFrom parallel mclapply
 #' @seealso path.extensionRegExp
