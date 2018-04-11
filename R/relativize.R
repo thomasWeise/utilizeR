@@ -12,6 +12,7 @@
 #' @param dir the reference directory to normalize against
 #' @param sep path separator
 #' @export path.relativize
+#' @importFrom utils tail
 path.relativize <- function(path, dir=getwd(), sep=.Platform$file.sep){
 
   # first obtain normalized equivalents of the two paths

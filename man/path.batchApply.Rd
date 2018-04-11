@@ -28,9 +28,9 @@ which returns \code{TRUE} if we should recurse into the directory
 \code{path} and \code{false} if not}
 
 \item{cores}{the number of cores to use. If \code{cores <= 1L}, the consumers
-are applied sequentially. For \code{cores>1L}, we use the \code{mclapply}
-function provided by the \code{paralle} package to invoke all the consumers
-with the specified number of cores}
+are applied sequentially. For \code{cores>1L}, we use the
+\code{\link[parallel]{mclapply}} function provided by the \code{parallel}
+package to invoke all the consumers with the specified number of cores}
 }
 \description{
 The sub-folders under a given path are iteratively processed.
@@ -52,7 +52,7 @@ be regular expressions matching to file extensions created by
 The processing can either take place sequentially (for values of
 \code{core<=1L}) or in parallel (\code{cores>1L}). In the latter case, we
 first gather all handler applications that need to be done and then pass
-them to \code{\link{mcapply}}.
+them to \code{\link[parallel]{mclapply}}.
 
 This function is not supposed to return anything useful. Instead, the idea
 is that the handlers would read their input files and create output files
