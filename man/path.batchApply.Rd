@@ -29,8 +29,8 @@ which returns \code{TRUE} if we should recurse into the directory
 
 \item{cores}{the number of cores to use. If \code{cores <= 1L}, the consumers
 are applied sequentially. For \code{cores>1L}, we use the
-\code{\link{mclapply}} function provided by the \code{paralle} package to
-invoke all the consumers with the specified number of cores}
+\code{\link[parallel]{mclapply}} function provided by the \code{paralle}
+package to invoke all the consumers with the specified number of cores}
 }
 \description{
 The sub-folders under a given path are iteratively processed.
