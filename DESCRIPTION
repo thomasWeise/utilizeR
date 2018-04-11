@@ -17,6 +17,7 @@ RoxygenNote: 6.0.1.9000
 Collate: 
     'extensionRegExp.R'
     'batchApply.R'
+    'commonPrefix.R'
     'functionToString.R'
     'ignoreErrors.R'
     'relativize.R'
