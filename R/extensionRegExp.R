@@ -7,9 +7,9 @@
 #' @param extensions either a single string or array of strings, each holding a
 #'   file extension
 #' @return the regular expression which will match them
-#' @export fileExtensionRegExp
+#' @export path.extensionRegExp
 #' @examples
-#' exp <- fileExtensionRegExp(c("html", "jpg"))
+#' exp <- path.extensionRegExp(c("html", "jpg"))
 #' exp
 #' # [1] "^.*\\.(html|jpg)$"
 #' length(grep(exp, "hellojpg")) > 0L
@@ -24,7 +24,7 @@
 #' # [1] FALSE
 #' length(grep(exp, "hello.html.txt")) > 0L
 #' # [1] FALSE
-fileExtensionRegExp <- function(extensions) {
+path.extensionRegExp <- function(extensions) {
   if(length(extensions) == 1L) {
     paste("^.*\\.", extensions, "$", sep="", collapse="")
   } else {

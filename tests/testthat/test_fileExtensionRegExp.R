@@ -1,8 +1,8 @@
 library("utilizeR")
-context("fileExtensionRegexp")
+context("path.extensionRegExp")
 
-test_that("fileExtensionRegExp", {
-   exp <- fileExtensionRegExp(c("html", "jpg"))
+test_that("path.extensionRegExp", {
+   exp <- path.extensionRegExp(c("html", "jpg"))
    expect_identical(exp, "^.*\\.(html|jpg)$");
    expect_identical(length(grep(exp, "hellojpg")) > 0L, FALSE);
    expect_identical(length(grep(exp, "hello.jpg")) > 0L, TRUE);

@@ -15,8 +15,8 @@ Suggests: testthat (>= 2.0.0),
 LazyData: true
 RoxygenNote: 6.0.1.9000
 Collate: 
-    'fileExtensionRegExp.R'
-    'dirApply.R'
+    'extensionRegExp.R'
+    'batchApply.R'
     'functionToString.R'
     'ignoreErrors.R'
-    'relativizePath.R'
+    'relativize.R'

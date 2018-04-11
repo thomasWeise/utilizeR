@@ -1,4 +1,4 @@
-#' @include fileExtensionRegExp.R
+#' @include extensionRegExp.R
 
 #' @title Process The Files and Sub-Directories in a Directory Recursively (and
 #' Potentially in Parallel)
@@ -45,10 +45,10 @@
 #'   are applied sequentially. For \code{cores>1L}, we use the
 #'   \code{\link{mclapply}} function provided by the \code{paralle} package to
 #'   invoke all the consumers with the specified number of cores
-#' @export dirBatchApply
+#' @export path.batchApply
 #' @importFrom parallel mclapply
 #' @seealso fileExtensionRegExp
-dirBatchApply <- function(path=getwd(),
+path.batchApply <- function(path=getwd(),
                           file.single=emptyenv(),
                           file.in.folder=emptyenv(),
                           check.directory=function(root, path) TRUE,
@@ -73,7 +73,7 @@ dirBatchApply <- function(path=getwd(),
   make.calls <- unlist(c(file.in.folder, file.single), recursive = TRUE);
 
   if(cores > 1L) {
-    calls <- unlist(.dirBatchApply.par(root=.root,
+    calls <- unlist(.path.batchApply.par(root=.root,
                                   path=.root,
                                   make.calls=make.calls,
                                   check.directory=check.directory), recursive = TRUE);
@@ -82,7 +82,7 @@ dirBatchApply <- function(path=getwd(),
              mc.cores=cores,
              mc.preschedule=FALSE);
   } else {
-    .dirBatchApply.seq(root=.root,
+    .path.batchApply.seq(root=.root,
               path=.root,
               make.calls=make.calls,
               check.directory=check.directory);
@@ -149,7 +149,7 @@ dirBatchApply <- function(path=getwd(),
 
 # Apply the processors in a sequential way, i.e., directly invoke the functions
 # created with make.calls
-.dirBatchApply.seq <- function(root,
+.path.batchApply.seq <- function(root,
                           path,
                           make.calls,
                           check.directory) {
@@ -166,7 +166,7 @@ dirBatchApply <- function(path=getwd(),
 
         # recursively apply the invocation to all sub-directories
         for(dir in list.dirs(path=path, full.names=TRUE, recursive=FALSE)) {
-          .dirBatchApply.seq(root=root, path=dir, make.calls=make.calls,
+          .path.batchApply.seq(root=root, path=dir, make.calls=make.calls,
                         check.directory=check.directory);
         }
 
@@ -195,7 +195,7 @@ dirBatchApply <- function(path=getwd(),
 
 # Create the processors functions for parallel invocation, i.e.,
 # build a list of function calls to invoke
-.dirBatchApply.par <- function(root,
+.path.batchApply.par <- function(root,
                           path,
                           make.calls,
                           check.directory) {
@@ -214,7 +214,7 @@ dirBatchApply <- function(path=getwd(),
         # recursively apply the invocation to all sub-directories
         retval <- lapply(X=list.dirs(path=path, full.names=TRUE, recursive=FALSE),
                          FUN=function(path) {
-                           ret <- .dirBatchApply.par(root=root,
+                           ret <- .path.batchApply.par(root=root,
                                                 path=path,
                                                 make.calls=make.calls,
                                                 check.directory=check.directory);

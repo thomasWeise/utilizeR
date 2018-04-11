@@ -11,8 +11,8 @@
 #' @param path the path to be normalized
 #' @param dir the reference directory to normalize against
 #' @param sep path separator
-#' @export relativizePath
-relativizePath <- function(path, dir=getwd(), sep=.Platform$file.sep){
+#' @export path.relativize
+path.relativize <- function(path, dir=getwd(), sep=.Platform$file.sep){
 
   # first obtain normalized equivalents of the two paths
   path.normalized <- normalizePath(path, winslash=sep, mustWork=FALSE);
