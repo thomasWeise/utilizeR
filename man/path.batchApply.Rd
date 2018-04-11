@@ -6,8 +6,7 @@
 Potentially in Parallel)}
 \usage{
 path.batchApply(path = getwd(), file.single = emptyenv(),
-  file.in.folder = emptyenv(), check.directory = function(root, path) TRUE,
-  cores = 1L)
+  file.in.folder = emptyenv(), check.directory = NULL, cores = 1L)
 }
 \arguments{
 \item{path}{the path to explore recursively}

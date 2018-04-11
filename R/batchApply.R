@@ -51,10 +51,15 @@
 path.batchApply <- function(path=getwd(),
                           file.single=emptyenv(),
                           file.in.folder=emptyenv(),
-                          check.directory=function(root, path) TRUE,
+                          check.directory=NULL,
                           cores=1L) {
 
   .root <- normalizePath(path);
+
+  if(is.null(check.directory)) {
+    check.directory <- function(root, path) TRUE;
+  }
+  check.directory <- force(check.directory);
 
   if((!(is.null(file.single)))) {
     file.single <- as.environment(file.single);
