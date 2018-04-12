@@ -50,7 +50,7 @@ path.batchProcessor <- function(processor, dest, suffix) {
       # avoid doubling of characters like "_".
       if(start) {
         # The suffix starts with a dodgy character.
-        lp <- length(prefix);
+        lp <- nchar(prefix);
         if(lp > 0L) {
           # The prefix has non-zero length, so we check its last character.
           end <- substr(prefix, lp, lp);
@@ -72,6 +72,7 @@ path.batchProcessor <- function(processor, dest, suffix) {
       # Combine the prefix and the suffix.
       prefix <- paste(prefix, suffix, sep="", collapse="");
     }
+
 
     # The final path is the concatenation of the relative path of the prefix
     # towards the root dir appended to the destination dir.
