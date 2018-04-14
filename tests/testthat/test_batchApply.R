@@ -1,6 +1,7 @@
 library("utilizeR")
 context("path.batchApply")
 
+slow.tests <- (is.na(Sys.getenv("TRAVIS", unset=NA)))
 
 .file.make <- function(dir, name) {
   con <- file(file.path(dir, name), open="wt");
@@ -96,45 +97,45 @@ test_that("path.batchApply cores=2", {
 })
 
 test_that("path.batchApply cores=3", {
-  .test.batchApply(3L);
+  if(slow.tests) .test.batchApply(3L);
 })
 
 test_that("path.batchApply cores=4", {
-  .test.batchApply(4L);
+  if(slow.tests) .test.batchApply(4L);
 })
 
 test_that("path.batchApply cores=5", {
-  .test.batchApply(5L);
+  if(slow.tests) .test.batchApply(5L);
 })
 
 test_that("path.batchApply cores=6", {
-  .test.batchApply(6L);
+  if(slow.tests) .test.batchApply(6L);
 })
 
 test_that("path.batchApply cores=7", {
-  .test.batchApply(7L);
+  if(slow.tests) .test.batchApply(7L);
 })
 
 test_that("path.batchApply cores=8", {
-  .test.batchApply(8L);
+  if(slow.tests) .test.batchApply(8L);
 })
 
 test_that("path.batchApply cores=9", {
-  .test.batchApply(9L);
+  if(slow.tests) .test.batchApply(9L);
 })
 
 test_that("path.batchApply cores=10", {
-  .test.batchApply(10L);
+  if(slow.tests) .test.batchApply(10L);
 })
 
 test_that("path.batchApply cores=11", {
-  .test.batchApply(11L);
+  if(slow.tests) .test.batchApply(11L);
 })
 
 test_that("path.batchApply cores=12", {
-  .test.batchApply(12L);
+  if(slow.tests) .test.batchApply(12L);
 })
 
 test_that("path.batchApply cores=13", {
-  .test.batchApply(13L);
+  if(slow.tests) .test.batchApply(13L);
 })
