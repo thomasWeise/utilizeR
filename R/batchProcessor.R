@@ -84,7 +84,9 @@ path.batchProcessor <- function(processor, dest, suffix) {
 
     # Now we can invoke the processor and pass in the path(s) as well as the
     # destination file.
-    processor(paths, destination);
+    result <- processor(paths, destination);
+    result <- force(result);
+    return(result);
   }
 
   f <- force(f);

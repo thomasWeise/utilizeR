@@ -1,7 +1,7 @@
 Package: utilizeR
 Type: Package
 Title: An Utilities Package for R
-Version: 0.8.1
+Version: 0.8.2
 Author: Dr. Thomas Weise <tweise@hfuu.edu.cn>
 Maintainer: Dr. Thomas Weise <tweise@hfuu.edu.cn>
 Description: This package just contains some basic utilities for R.

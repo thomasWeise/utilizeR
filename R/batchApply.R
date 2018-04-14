@@ -45,14 +45,16 @@
 #'   are applied sequentially. For \code{cores>1L}, we use the
 #'   \code{\link[parallel]{mclapply}} function provided by the \code{parallel}
 #'   package to invoke all the consumers with the specified number of cores
+#' @return an unnamed and recursively unlisted vector of the results of all the
+#'   processors, with no pre-defined order
 #' @export path.batchApply
 #' @importFrom parallel mclapply
 #' @seealso path.extensionRegExp
 path.batchApply <- function(path=getwd(),
-                          file.single=emptyenv(),
-                          file.in.folder=emptyenv(),
-                          check.directory=NULL,
-                          cores=1L) {
+                            file.single=emptyenv(),
+                            file.in.folder=emptyenv(),
+                            check.directory=NULL,
+                            cores=1L) {
 
   .root <- normalizePath(path);
 
@@ -79,19 +81,20 @@ path.batchApply <- function(path=getwd(),
 
   if(cores > 1L) {
     calls <- unlist(.path.batchApply.par(root=.root,
-                                  path=.root,
-                                  make.calls=make.calls,
-                                  check.directory=check.directory), recursive = TRUE);
-   mclapply(X=calls,
-             FUN=function(f) f(),
-             mc.cores=cores,
-             mc.preschedule=FALSE);
+                                         path=.root,
+                                         make.calls=make.calls,
+                                         check.directory=check.directory), recursive = TRUE);
+   result <- mclapply(X=calls,
+                      FUN=function(f) f(),
+                      mc.cores=cores,
+                      mc.preschedule=FALSE);
   } else {
-    .path.batchApply.seq(root=.root,
-              path=.root,
-              make.calls=make.calls,
-              check.directory=check.directory);
+    result <- .path.batchApply.seq(root=.root,
+                                    path=.root,
+                                    make.calls=make.calls,
+                                    check.directory=check.directory);
   }
+  return(unname(unlist(result, recursive=TRUE)));
 }
 
 # Create the functions that match file list towards regular expressions and return
@@ -152,52 +155,6 @@ path.batchApply <- function(path=getwd(),
 }
 
 
-# Apply the processors in a sequential way, i.e., directly invoke the functions
-# created with make.calls
-.path.batchApply.seq <- function(root,
-                          path,
-                          make.calls,
-                          check.directory) {
-
-  # can the path be processed?
-  if(isTRUE(file.exists(path)) &&
-     (!identical(path, ".") || identical(path, ".."))) {
-
-    # ok, the path exists and is either a directory or file
-    if(isTRUE(file.info(path)$isdir)) {
-
-      # the path is a directory - but is it acceptable?
-      if(check.directory(root, path)) { # yes
-
-        # recursively apply the invocation to all sub-directories
-        for(dir in list.dirs(path=path, full.names=TRUE, recursive=FALSE)) {
-          .path.batchApply.seq(root=root, path=dir, make.calls=make.calls,
-                        check.directory=check.directory);
-        }
-
-        # get a list of files
-        paths <- list.files(path=path, full.names=TRUE);
-        paths <- force(paths);
-        # for each possible call maker
-        for(f in make.calls) {
-          # directly create the call and invoke it on the spot
-          for(call in f(root, paths)) { call() }
-        }
-      }
-    } else {
-      # the path is a file
-      paths <- c(path);
-      paths <- force(paths);
-      # for each possible call maker
-      for(f in make.calls) {
-        # directly create the call and invoke it on the spot
-        for(call in f(root, paths)) { call() }
-      }
-    }
-  }
-}
-
-
 # Create the processors functions for parallel invocation, i.e.,
 # build a list of function calls to invoke
 .path.batchApply.par <- function(root,
@@ -234,14 +191,83 @@ path.batchApply <- function(path=getwd(),
         retval2 <- lapply(X=make.calls, FUN=function(f) f(root, paths));
 
         # combine the return values
-        if(is.null(retval)) { retval <- retval2; }
-        else { if(!(is.null(retval2))) { retval <- c(retval, retval2); } }
+        if(is.null(retval) || (length(retval) <= 0L)) {
+          retval <- retval2;
+        } else {
+          if((!(is.null(retval2))) && (length(retval2) > 0L)) {
+            retval <- c(retval, retval2);
+          }
+        }
       }
     } else {
       # the path is a file
       paths <- c(path);
       paths <- force(paths);
       retval <- lapply(X=make.calls, FUN=function(f) f(root, paths));
+    }
+  }
+
+  return(retval);
+}
+
+# perform a sequential call
+.call.seq <- function(f, root, paths) {
+  ret <- f(root, paths)
+  if(is.null(ret) || (length(ret) <= 0L)) { return(NULL); }
+  ret <- unlist(ret, recursive=TRUE);
+  if(is.null(ret) || (length(ret) <= 0L)) { return(NULL); }
+  return(lapply(X=ret, FUN=function(f) f()))
+}
+
+# Create the results via a sequential invocation
+.path.batchApply.seq <- function(root,
+                                 path,
+                                 make.calls,
+                                 check.directory) {
+  retval <- NULL;
+
+  # can the path be processed?
+  if(isTRUE(file.exists(path)) &&
+     (!identical(path, ".") || identical(path, ".."))) {
+
+    # ok, the path exists and is either a directory or file
+    if(isTRUE(file.info(path)$isdir)) {
+
+      # the path is a directory - but is it acceptable?
+      if(check.directory(root, path)) { # yes
+
+        # recursively apply the invocation to all sub-directories
+        retval <- lapply(X=list.dirs(path=path, full.names=TRUE, recursive=FALSE),
+                         FUN=function(path) {
+                           ret <- .path.batchApply.seq(root=root,
+                                                       path=path,
+                                                       make.calls=make.calls,
+                                                       check.directory=check.directory);
+                           ret <- force(ret);
+                           return(ret);
+                         });
+
+        # now we want to create all the function invocations for the files
+        # and append them to those obtained from the recursive call
+        paths   <- list.files(path=path, full.names=TRUE);
+        paths   <- force(paths);
+        # make the calls
+        retval2 <- lapply(X=make.calls, FUN=.call.seq, root, paths);
+
+        # combine the return values
+        if(is.null(retval) || (length(retval) <= 0L)) {
+          retval <- retval2;
+        } else {
+          if((!(is.null(retval2))) && (length(retval2) > 0L)) {
+            retval <- c(retval, retval2);
+          }
+        }
+      }
+    } else {
+      # the path is a file
+      paths <- c(path);
+      paths <- force(paths);
+      retval <- lapply(X=make.calls, FUN=.call.seq, root, paths);
     }
   }
 

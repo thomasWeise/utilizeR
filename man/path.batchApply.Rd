@@ -31,6 +31,10 @@ are applied sequentially. For \code{cores>1L}, we use the
 \code{\link[parallel]{mclapply}} function provided by the \code{parallel}
 package to invoke all the consumers with the specified number of cores}
 }
+\value{
+an unnamed and recursively unlisted vector of the results of all the
+  processors, with no pre-defined order
+}
 \description{
 The sub-folders under a given path are iteratively processed.
 For each folder, the function \code{check.directory} returns either
