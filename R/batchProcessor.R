@@ -98,7 +98,7 @@ path.batchProcessor <- function(processor,
     if(skipExisting && file.exists(destination)) {
       return(NULL);
     }
-    file.create(destination);
+    file.create(destination, showWarnings = FALSE);
 
     # Now we can invoke the processor and pass in the path(s) as well as the
     # destination file.
