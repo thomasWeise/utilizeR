@@ -7,13 +7,19 @@
 #' @param processor the \code{function(path(s), dest)} to be applied
 #' @param dest the destination folder
 #' @param suffix the suffix
+#' @param skipExisting should computations for existing destination files be
+#'   skipped? The return value for skipped computations is \code{NULL}.
 #' @return the batch processor function of type \code{function(path(s), dest)}
 #' @export path.batchProcessor
 #' @importFrom tools file_path_sans_ext
-path.batchProcessor <- function(processor, dest, suffix) {
-  processor <- force(processor);
-  dest      <- force(dest);
-  suffix    <- force(suffix);
+path.batchProcessor <- function(processor,
+                                dest,
+                                suffix=".txt",
+                                skipExisting=FALSE) {
+  processor    <- force(processor);
+  dest         <- force(dest);
+  suffix       <- force(suffix);
+  skipExisting <- force(skipExisting);
 
   # we want to avoid file names of the form "prefix__suffix" and translate them
   # to "prefix_suffix". Also we don't want "/a/_b" but rather "/a/b". Hence we
@@ -26,12 +32,13 @@ path.batchProcessor <- function(processor, dest, suffix) {
 
   # create the processor function
   f <- function(root, paths) {
-    root      <- force(root);
-    paths     <- force(paths);
-    processor <- force(processor);
-    dest      <- force(dest);
-    suffix    <- force(suffix);
-    start     <- force(start);
+    root         <- force(root);
+    paths        <- force(paths);
+    processor    <- force(processor);
+    dest         <- force(dest);
+    suffix       <- force(suffix);
+    start        <- force(start);
+    skipExisting <- force(skipExisting);
 
     # extract the common prefix of all source files
     prefix    <- string.commonPrefix(file_path_sans_ext(paths, compression=TRUE));
@@ -79,8 +86,19 @@ path.batchProcessor <- function(processor, dest, suffix) {
     destination  <- file.path(dest,
                     path.relativize(path=prefix, dir=root));
 
+    # Check if the file exists
+    if(skipExisting && file.exists(destination)) {
+      return(NULL);
+    }
+
     # We ensure that the directory where destination file should be put exists.
     dir.create(path=dirname(destination), showWarnings=FALSE, recursive=TRUE);
+
+    # Check if the file exists again
+    if(skipExisting && file.exists(destination)) {
+      return(NULL);
+    }
+    file.create(destination);
 
     # Now we can invoke the processor and pass in the path(s) as well as the
     # destination file.

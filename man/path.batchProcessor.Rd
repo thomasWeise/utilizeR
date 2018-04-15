@@ -4,7 +4,7 @@
 \alias{path.batchProcessor}
 \title{Create a Batch Processor}
 \usage{
-path.batchProcessor(processor, dest, suffix)
+path.batchProcessor(processor, dest, suffix = ".txt", skipExisting = FALSE)
 }
 \arguments{
 \item{processor}{the \code{function(path(s), dest)} to be applied}
@@ -12,6 +12,9 @@ path.batchProcessor(processor, dest, suffix)
 \item{dest}{the destination folder}
 
 \item{suffix}{the suffix}
+
+\item{skipExisting}{should computations for existing destination files be
+skipped? The return value for skipped computations is \code{NULL}.}
 }
 \value{
 the batch processor function of type \code{function(path(s), dest)}

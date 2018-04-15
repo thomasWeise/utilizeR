@@ -174,7 +174,7 @@ path.batchApply <- function(path=getwd(),
       if(check.directory(root, path)) { # yes
 
         # recursively apply the invocation to all sub-directories
-        retval <- lapply(X=list.dirs(path=path, full.names=TRUE, recursive=FALSE),
+        retval <- lapply(X=sort(list.dirs(path=path, full.names=TRUE, recursive=FALSE)),
                          FUN=function(path) {
                            ret <- .path.batchApply.par(root=root,
                                                 path=path,
@@ -186,7 +186,7 @@ path.batchApply <- function(path=getwd(),
 
         # now we want to create all the function invocations for the files
         # and append them to those obtained from the recursive call
-        paths   <- list.files(path=path, full.names=TRUE);
+        paths   <- sort(list.files(path=path, full.names=TRUE));
         paths   <- force(paths);
         retval2 <- lapply(X=make.calls, FUN=function(f) f(root, paths));
 
@@ -237,7 +237,7 @@ path.batchApply <- function(path=getwd(),
       if(check.directory(root, path)) { # yes
 
         # recursively apply the invocation to all sub-directories
-        retval <- lapply(X=list.dirs(path=path, full.names=TRUE, recursive=FALSE),
+        retval <- lapply(X=sort(list.dirs(path=path, full.names=TRUE, recursive=FALSE)),
                          FUN=function(path) {
                            ret <- .path.batchApply.seq(root=root,
                                                        path=path,
@@ -249,7 +249,7 @@ path.batchApply <- function(path=getwd(),
 
         # now we want to create all the function invocations for the files
         # and append them to those obtained from the recursive call
-        paths   <- list.files(path=path, full.names=TRUE);
+        paths   <- sort(list.files(path=path, full.names=TRUE));
         paths   <- force(paths);
         # make the calls
         retval2 <- lapply(X=make.calls, FUN=.call.seq, root, paths);
