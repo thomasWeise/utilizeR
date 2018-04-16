@@ -20,6 +20,7 @@ Collate:
     'extensionRegExp.R'
     'batchApply.R'
     'batchProcessor.R'
+    'classes.R'
     'commonPrefix.R'
     'functionToString.R'
     'ignoreErrors.R'
