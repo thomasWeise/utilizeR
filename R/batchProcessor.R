@@ -44,11 +44,13 @@ path.batchProcessor <- function(processor,
     prefix    <- string.commonPrefix(file_path_sans_ext(paths, compression=TRUE));
 
     use <- suffix;
+
     if(isTRUE(dir.exists(prefix))) {
       # Ok, the prefix identifies an directoy. Then, the final file is just
       # prefix/suffix, unless suffix starts with a dodgy character, in which
       # case we omit the first suffix character.
-      if(start) { use <- substr(suffix, 2L, length(suffix)); }
+      if(start) { use <- substr(suffix, 2L, nchar(suffix)); }
+
       # Create the prefix/suffix path
       prefix <- file.path(prefix, use);
     } else {
@@ -73,7 +75,7 @@ path.batchProcessor <- function(processor,
         } else {
           # Oddly, there is no prefix, just a suffix starting with a dodgy
           # character, so we omit that first char.
-          use <- substr(suffix, 2L, length(suffix));
+          use <- substr(suffix, 2L, nchar(suffix));
         }
       }
       # Combine the prefix and the suffix.
