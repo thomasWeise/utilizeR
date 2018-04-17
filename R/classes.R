@@ -13,3 +13,11 @@ setClassUnion("functionOrNULL", c("function","NULL"))
 #' @importFrom methods setClassUnion
 #' @exportClass numericOrNULL
 setClassUnion("numericOrNULL", c("numeric","NULL"))
+
+#' @title Either a \code{character} \code{vector} or \code{NULL}
+#' @description A combination of the \code{character} class and \code{NULL}.
+#'   Using this class allows us to have member variables in S4 classes which are
+#'   null-able character vectors.
+#' @importFrom methods setClassUnion
+#' @exportClass characterOrNULL
+setClassUnion("characterOrNULL", c("character","NULL"))
