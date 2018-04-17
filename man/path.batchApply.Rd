@@ -6,7 +6,8 @@
 Potentially in Parallel)}
 \usage{
 path.batchApply(path = getwd(), file.single = emptyenv(),
-  file.in.folder = emptyenv(), check.directory = NULL, cores = 1L)
+  file.in.folder = emptyenv(), check.directory = NULL, cores = 1L,
+  logging = FALSE)
 }
 \arguments{
 \item{path}{the path to explore recursively}
@@ -30,6 +31,8 @@ which returns \code{TRUE} if we should recurse into the directory
 are applied sequentially. For \code{cores>1L}, we use the
 \code{\link[parallel]{mclapply}} function provided by the \code{parallel}
 package to invoke all the consumers with the specified number of cores}
+
+\item{logging}{the logging setup, see \code{\link{makeLogger}}}
 }
 \value{
 an unnamed and recursively unlisted vector of the results of all the

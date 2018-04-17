@@ -45,6 +45,7 @@
 #'   are applied sequentially. For \code{cores>1L}, we use the
 #'   \code{\link[parallel]{mclapply}} function provided by the \code{parallel}
 #'   package to invoke all the consumers with the specified number of cores
+#' @param  logging the logging setup, see \code{\link{makeLogger}}
 #' @return an unnamed and recursively unlisted vector of the results of all the
 #'   processors, with no pre-defined order
 #' @export path.batchApply
@@ -54,9 +55,11 @@ path.batchApply <- function(path=getwd(),
                             file.single=emptyenv(),
                             file.in.folder=emptyenv(),
                             check.directory=NULL,
-                            cores=1L) {
+                            cores=1L,
+                            logging=FALSE) {
 
   .root <- normalizePath(path);
+  logging <- makeLogger(logging, cores);
 
   if(is.null(check.directory)) {
     check.directory <- function(root, path) TRUE;
@@ -80,21 +83,44 @@ path.batchApply <- function(path=getwd(),
   make.calls <- unlist(c(file.in.folder, file.single), recursive = TRUE);
 
   if(cores > 1L) {
+    if(!(is.null(logging))) {
+      logging("beginning with parallel batch-processing of directory ", .root,
+              " on ", cores, " cores - first we collect all jobs.");
+    }
     calls <- unlist(.path.batchApply.par(root=.root,
                                          path=.root,
                                          make.calls=make.calls,
                                          check.directory=check.directory), recursive = TRUE);
+    if(!(is.null(logging))) {
+      logging("finished collecting ", length(calls),
+              " jobs in total for directory  ", .root,
+              ", now invoking them on ", cores,
+              " cores.");
+    }
    result <- mclapply(X=calls,
                       FUN=function(f) f(),
                       mc.cores=cores,
                       mc.preschedule=FALSE);
   } else {
+    if(!(is.null(logging))) {
+      logging("beginning sequential batch-processing of directory ", .root);
+    }
     result <- .path.batchApply.seq(root=.root,
                                     path=.root,
                                     make.calls=make.calls,
                                     check.directory=check.directory);
   }
-  return(unname(unlist(result, recursive=TRUE)));
+
+  result <- unname(unlist(result, recursive=TRUE));
+
+  if(!(is.null(logging))) {
+    logging("finished batch-processing directory ", .root,
+            ", generated result list of length ", length(result),
+            ".");
+  }
+
+
+  return(result);
 }
 
 # Create the functions that match file list towards regular expressions and return
