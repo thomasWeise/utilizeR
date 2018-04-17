@@ -10,6 +10,9 @@ path.extensionRegExp(extensions, before.extension = NULL)
 \arguments{
 \item{extensions}{either a single string or array of strings, each holding a
 file extension}
+
+\item{before.extension}{a string required to occur immediately before the
+file extension}
 }
 \value{
 the regular expression which will match them

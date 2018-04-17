@@ -6,6 +6,8 @@
 #'   of the extensions (with a leading ".").
 #' @param extensions either a single string or array of strings, each holding a
 #'   file extension
+#' @param before.extension a string required to occur immediately before the
+#'   file extension
 #' @return the regular expression which will match them
 #' @export path.extensionRegExp
 #' @examples
