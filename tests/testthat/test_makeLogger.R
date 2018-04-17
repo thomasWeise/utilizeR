@@ -6,6 +6,7 @@ test_that("makeLogger 1", {
   expect_true(is.function(l));
   expect_false(is.null(l));
   expect_identical(names(formals(l)), c("string"));
+  expect_null(l("test"));
 })
 
 
@@ -23,15 +24,25 @@ test_that("makeLogger 3", {
   expect_false(is.null(l));
   expect_identical(names(formals(l)), c("string"));
 
-  l("test");
+  expect_null(l("test"));
   expect_true(file.exists(f));
   lines <- readLines(con=f);
   expect_length(lines, 1L);
 
-  l("test");
+  expect_null(l("test"));
   expect_true(file.exists(f));
   lines <- readLines(con=f);
   expect_length(lines, 2L);
+
+  expect_null(l("test"));
+  expect_true(file.exists(f));
+  lines <- readLines(con=f);
+  expect_length(lines, 3L);
+
+  expect_null(l("test"));
+  expect_true(file.exists(f));
+  lines <- readLines(con=f);
+  expect_length(lines, 4L);
 
   unlink(f);
 })

@@ -30,6 +30,7 @@ makeLogger <- function(logging, cores=1L) {
       writeLines(text=paste(Sys.time(), ": ", string, sep="", collapse=""), con=con);
       # closing the file
       close(con);
+      return(NULL); # return null
     }
   } else {
     if(isTRUE(logging)) {
@@ -41,6 +42,7 @@ makeLogger <- function(logging, cores=1L) {
       logger <- function(string) {
         # print current time and text to stdout
         print(paste(Sys.time(), ": ", string));
+        return(NULL); # return null
       }
     } else {
       if(is.function(logging)) {
