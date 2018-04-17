@@ -1,6 +1,18 @@
+
+# create a logger string from a set of strings
+.stringer <- function(...) {
+  paste(Sys.time(), ": ",
+        paste(..., sep="", collapse=""),
+        sep="", collapse="");
+}
+
 #' @title Create a Logger Function
 #' @description Create a logger function which can be used to store status
-#'   output either to a file or stdout.
+#'   output either to a file or stdout. A logger function is a function which
+#'   accepts any number of arguments via the ellipse parameter \code{...}. These
+#'   arguments are concatenated via \code{\link{paste}(..., sep="",
+#'   collapse="")} and printed to the destination. The destination might be a
+#'   file or the console or whatever.
 #' @param logging should progress information be printed: either \code{TRUE} for
 #'   printing to the console via \code{\link{print}}, \code{FALSE} for no
 #'   logging, or a path to a file receiving logging information
@@ -22,12 +34,12 @@ makeLogger <- function(logging, cores=1L) {
     logging <- force(logging);
 
     # the logger is now a function writing to the file
-    logger <- function(string) {
+    logger <- function(...) {
       logging <- force(logging);
       # open the file for appending text
       con <- file(logging, "at");
       # writing the time and the text
-      writeLines(text=paste(Sys.time(), ": ", string, sep="", collapse=""), con=con);
+      writeLines(text=.stringer(...), con=con);
       # closing the file
       close(con);
       return(NULL); # return null
@@ -39,15 +51,15 @@ makeLogger <- function(logging, cores=1L) {
                       cores, " will may crash/fail in RStudio.",
                       sep="", collapse=""))
       }
-      logger <- function(string) {
+      logger <- function(...) {
         # print current time and text to stdout
-        print(paste(Sys.time(), ": ", string));
+        print(.stringer(...));
         return(NULL); # return null
       }
     } else {
       if(is.function(logging)) {
         # if the logger is a function
-        if(identical(names(formals(logging)), c("string"))) {
+        if(identical(names(formals(logging)), c("..."))) {
           # we return that function only if the arguments match
           return(logging);
         }

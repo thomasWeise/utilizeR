@@ -16,5 +16,9 @@ itself, but (\code{>1L} will issue a warning for console-based logging.}
 }
 \description{
 Create a logger function which can be used to store status
-  output either to a file or stdout.
+  output either to a file or stdout. A logger function is a function which
+  accepts any number of arguments via the ellipse parameter \code{...}. These
+  arguments are concatenated via \code{\link{paste}(..., sep="",
+  collapse="")} and printed to the destination. The destination might be a
+  file or the console or whatever.
 }
