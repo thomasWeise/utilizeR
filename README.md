@@ -5,6 +5,18 @@
 ## Introduction
 
 Here we store some utilities shared by our other packages.
+
+One important export is the function `ignoreErrors(exp)` which executes the expression and ignores all errors or warnings.
+This is useful when dealing with expressions that maybe assign some result (like `ignoreErrors(result <- dodgyFunction())`) but may fail for reasons which can safely be ignored.
+
+Another useful utility is the `path.batchApply` which follows a visitor design pattern to (recursively) feed a supplied function with all files in a directory that fit to an (also supplied) regular expression.
+The result is returned as a list, much like the `lapply`, if wanted.
+`path.batchApply` can also automatically parallelize the computation by using `mclapply` from the `parallel` package internally.
+This allows for a more convenient and automatic batch processing of data in folders.
+`path.batchProcessor` can create a wrapper for an input/output-file-style processor to adapt it to the `path.batchApply` interface.
+The other functions like `path.commonPrefix`, `path.extensionRegExp`, and `path.relativize` also are building blocks that are used by and fit to the `path.batchApply` code.
+
+This library also includes some shared classes, such as `functionOrNULL` and `numericOrNULL`, which we use in some of our other classes to allow for members which can either be `NULL` or, well, a function or numeric vector.
     
 ## Installation
 

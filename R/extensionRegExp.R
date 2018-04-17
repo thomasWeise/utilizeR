@@ -24,10 +24,14 @@
 #' # [1] FALSE
 #' length(grep(exp, "hello.html.txt")) > 0L
 #' # [1] FALSE
-path.extensionRegExp <- function(extensions) {
+path.extensionRegExp <- function(extensions, before.extension=NULL) {
+  start <- "^.*";
+  if((!(is.null(before.extension))) && (nchar(before.extension) > 0L)) {
+    start <- paste(start, "\\Q", before.extension, "\\E", sep="", collapse="");
+  }
   if(length(extensions) == 1L) {
-    paste("^.*\\.", extensions, "$", sep="", collapse="")
+    paste(start, "\\.", extensions, "$", sep="", collapse="")
   } else {
-    paste("^.*\\.(", paste(extensions, sep="", collapse="|"), ")$", sep="", collapse="")
+    paste(start, "\\.(", paste(extensions, sep="", collapse="|"), ")$", sep="", collapse="")
   }
 }

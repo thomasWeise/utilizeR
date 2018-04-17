@@ -1,10 +1,33 @@
 Package: utilizeR
 Type: Package
 Title: An Utilities Package for R
-Version: 0.8.2
+Version: 0.8.3
 Author: Dr. Thomas Weise <tweise@hfuu.edu.cn>
 Maintainer: Dr. Thomas Weise <tweise@hfuu.edu.cn>
-Description: This package just contains some basic utilities for R.
+Description: Here we store some utilities shared by our other packages. One
+    important export is the function \code{\link{ignoreErrors}(exp)} which
+    executes the expression and ignores all errors or warnings. This is
+    useful when dealing with expressions that maybe assign some result
+    (like \code{\link{ignoreErrors}(result <- dodgyFunction())}) but may
+    fail for reasons which can safely be ignored. Another useful utility is
+    the \code{\link{path.batchApply}} which follows a visitor design
+    pattern to (recursively) feed a supplied function with all files in a
+    directory that fit to an (also supplied) regular expression. The result
+    is returned as a list, much like the \code{\link{lapply}}, if wanted.
+    \code{\link{path.batchApply}} can also automatically parallelize the
+    computation by using \code{\link[parallel]{mclapply}} from the
+    \code{parallel} package internally. This allows for a more convenient
+    and automatic batch processing of data in folders.
+    \code{\link{path.batchProcessor}} can create a wrapper for an input/
+    output- file-style processor to adapt it to the
+    \code{\link{path.batchApply}} interface. The other functions like
+    \code{\link{path.commonPrefix}}, \code{\link{path.extensionRegExp}},
+    and \code{\link{path.relativize}} also are building blocks that are
+    used by and fit to the \code{\link{path.batchApply}} code. This library
+    also includes some shared classes, such as \code{\link{functionOrNULL}}
+    and \code{\link{numericOrNULL}}, which we use in some of our other
+    classes to allow for members which can either be \code{NULL} or, well,
+    a function or numeric vector.
 License: LGPL-3
 Encoding: UTF-8
 URL: http://github.com/thomasWeise/functionComposeR/

@@ -5,7 +5,7 @@
 \title{Create a Regular Expression that can match a File Name versus One or
   Multiple File Extension(s)}
 \usage{
-path.extensionRegExp(extensions)
+path.extensionRegExp(extensions, before.extension = NULL)
 }
 \arguments{
 \item{extensions}{either a single string or array of strings, each holding a
