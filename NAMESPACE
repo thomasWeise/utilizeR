@@ -2,6 +2,7 @@
 
 export(functionToString)
 export(ignoreErrors)
+export(makeLogger)
 export(path.batchApply)
 export(path.batchProcessor)
 export(path.extensionRegExp)

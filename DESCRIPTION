@@ -48,4 +48,5 @@ Collate:
     'commonPrefix.R'
     'functionToString.R'
     'ignoreErrors.R'
+    'makeLogger.R'
     'relativize.R'
