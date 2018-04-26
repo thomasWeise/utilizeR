@@ -27,8 +27,13 @@ makeLogger <- function(logging, cores=1L) {
     logging <- normalizePath(logging, mustWork = FALSE);
     # and make sure the hosting directory exists
     dir.create(path=dirname(logging), showWarnings = FALSE, recursive = TRUE);
+
     # now we can make sure that the log file exists
-    file.create(logging, showWarnings = FALSE);
+    if(!file.exists(logging)) {
+      # if the file does not yet exist, create it
+      file.create(logging, showWarnings = FALSE);
+    }
+
     # which means that now we can really normalize the path
     logging <- normalizePath(logging);
     logging <- force(logging);
@@ -42,19 +47,19 @@ makeLogger <- function(logging, cores=1L) {
       writeLines(text=.stringer(...), con=con);
       # closing the file
       close(con);
-      return(NULL); # return null
+      invisible(NULL); # return an invisible null
     }
   } else {
     if(isTRUE(logging)) {
-      if(cores > 1L) {
+      if((cores > 1L) && (Sys.getenv("RSTUDIO") == "1")) {
         warning(paste("Setting logging to TRUE with cores=",
                       cores, " will may crash/fail in RStudio.",
                       sep="", collapse=""))
       }
       logger <- function(...) {
         # print current time and text to stdout
-        print(.stringer(...));
-        return(NULL); # return null
+        cat(.stringer(..., "\n"));
+        invisible(NULL); # return invisible null
       }
     } else {
       if(is.function(logging)) {
