@@ -47,6 +47,7 @@ Collate:
     'batchProcessor.R'
     'classes.R'
     'commonPrefix.R'
+    'findFinite.R'
     'functionToString.R'
     'ignoreErrors.R'
     'makeLogger.R'
