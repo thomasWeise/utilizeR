@@ -2,7 +2,9 @@
 
 export(find.finite)
 export(find.finite.nw)
-export(functionToString)
+export(function.args)
+export(function.name)
+export(function.toString)
 export(ignoreErrors)
 export(makeLogger)
 export(path.batchApply)

@@ -1,13 +1,25 @@
-
 #' @title Convert a Function Body to a String
 #' @description Convert a function body to a string
 #' @param f the function
 #' @return a string representation of the function
-#' @export functionToString
-functionToString <- function(f) {
+#' @export function.toString
+#' @include functionName.R
+#' @examples
+#' function.toString(function(x,y) x+5*y)
+#' # x+5*y
+#' function.toString(function(x) sin(x))
+#' # sin(x)
+#' function.toString(sin)
+#' # sin
+function.toString <- function(f) {
   # get the body of the function
   ret        <- lapply(X=deparse(body(f)), FUN=trimws);
   ret.length <- length(ret);
+
+  # handle the case of primitive functions for which we have no body
+  if((ret.length == 1L) && (identical(ret[[1L]], "NULL"))) {
+    return(function.name(f));
+  }
 
   # remove useless surrounding "{ }" <- this is probably wrong
   while((ret.length > 2L) &&

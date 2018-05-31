@@ -1,8 +1,8 @@
 library("utilizeR")
-context("functionToString")
+context("function.toString")
 
-test_that("functionToString", {
-  expect_identical(functionToString(function(x) sin(x)), "sin(x)")
-  expect_identical(functionToString(function(x) {sin(x)}), "sin(x)")
-  expect_identical(functionToString(function(x) {x<-5*x; sin(x)}), "x <- 5 * x; sin(x)")
+test_that("function.toString", {
+  expect_identical(function.toString(function(x) sin(x)), "sin(x)")
+  expect_identical(function.toString(function(x) {sin(x)}), "sin(x)")
+  expect_identical(function.toString(function(x) {x<-5*x; sin(x)}), "x <- 5 * x; sin(x)")
 })
