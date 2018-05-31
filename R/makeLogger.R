@@ -19,6 +19,7 @@
 #' @param cores the number of processing cores. This is not really relevant
 #'   itself, but (\code{>1L} will issue a warning for console-based logging.
 #' @export makeLogger
+#' @include functionArgs.R
 makeLogger <- function(logging, cores=1L) {
   # check and creat the logging destination
   logging <- force(logging);
@@ -64,7 +65,7 @@ makeLogger <- function(logging, cores=1L) {
     } else {
       if(is.function(logging)) {
         # if the logger is a function
-        if(identical(names(formals(logging)), c("..."))) {
+        if(identical(function.args(logging), c("..."))) {
           # we return that function only if the arguments match
           return(logging);
         }
