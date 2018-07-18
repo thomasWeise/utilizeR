@@ -106,9 +106,9 @@ path.batchApply <- function(path=getwd(),
       logging("beginning sequential batch-processing of directory ", .root);
     }
     result <- .path.batchApply.seq(root=.root,
-                                    path=.root,
-                                    make.calls=make.calls,
-                                    check.directory=check.directory);
+                                   path=.root,
+                                   make.calls=make.calls,
+                                   check.directory=check.directory);
   }
 
   result <- unname(unlist(result, recursive=TRUE));
@@ -203,9 +203,9 @@ path.batchApply <- function(path=getwd(),
         retval <- lapply(X=sort(list.dirs(path=path, full.names=TRUE, recursive=FALSE)),
                          FUN=function(path) {
                            ret <- .path.batchApply.par(root=root,
-                                                path=path,
-                                                make.calls=make.calls,
-                                                check.directory=check.directory);
+                                                       path=path,
+                                                       make.calls=make.calls,
+                                                       check.directory=check.directory);
                            ret <- force(ret);
                            return(ret);
                          });
