@@ -1,7 +1,7 @@
 Package: utilizeR
 Type: Package
 Title: An Utilities Package for R
-Version: 0.8.4
+Version: 0.8.5
 Author: Dr. Thomas Weise <tweise@hfuu.edu.cn>
 Maintainer: Dr. Thomas Weise <tweise@hfuu.edu.cn>
 Description: Here we store some utilities shared by our other packages. One
@@ -47,10 +47,11 @@ Collate:
     'batchProcessor.R'
     'classes.R'
     'commonPrefix.R'
-    'findFinite.R'
     'functionArgs.R'
+    'makeLogger.R'
+    'compressTarXz.R'
+    'findFinite.R'
     'ignoreErrors.R'
     'functionName.R'
     'functionToString.R'
-    'makeLogger.R'
     'relativize.R'
